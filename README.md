@@ -1,2 +1,2 @@
 # calculator
-Tiching project from cource The Odin Project
+Tiching project from cource The Odin Project: Basics JS
