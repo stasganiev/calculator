@@ -160,6 +160,13 @@ body {
 
 /* Main layout */
 
+.inner-wrap {
+    width: 99%;
+    height: 99%;
+    
+    margin: auto;
+}
+
 body {
     background-size: cover;
     background-origin: content-box;
@@ -176,10 +183,6 @@ body {
 }
 
 .main-content {
-    width: 99%;
-    height: 99%;
-
-    margin: auto;
     padding-top: 12px;
     padding-bottom: 12px;
 
