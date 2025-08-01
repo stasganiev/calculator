@@ -87,7 +87,7 @@ button {
 body {
   min-width: 320px;
 
-  font-family: 'Roboto', Arial, sans-serif;
+  font-family: 'Trebuchet MS', 'Arial Narrow', sans-serif;
   font-size: 16px;
   line-height: 1.25em;
   
@@ -163,7 +163,7 @@ body {
 .inner-wrap {
     width: 99%;
     height: 99%;
-    
+
     margin: auto;
 }
 
@@ -171,7 +171,7 @@ body {
     background-size: cover;
     background-origin: content-box;
     background-repeat: no-repeat;
-    background-image: url('../img/background-001.png');
+    background-image: url('../img/background-002.png');
     background-position: center center;
 }
 
@@ -198,13 +198,30 @@ body {
 }
 
 .screen-aria {
+    display: flex;
+    flex-direction: column;
 }
 
 .keyboard-aria-wrap {
     width: 95%;
     height: 82%;
-    /* border: 1px solid #f0f; */
 }
 
-.keyboard-aria {
+/* .keyboard-aria {
+} */
+
+/* Screen */
+
+.main-display {
+    width: 90%;
+    height: 60%;
+    margin: auto;
+    padding: 8px;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 7vmin;
+    text-align: right;
+    color: #070911;
 }
