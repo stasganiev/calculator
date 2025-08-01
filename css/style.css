@@ -235,14 +235,52 @@ body {
     color: #070911;
 }
 
+.main-display::placeholder {
+    color: #bbb;
+}
+
 /* Keyboard */
 
 .key-wrap {
     flex-basis: 23%;
     align-self: stretch;
+    border-radius: 10px;
+    height: 11vmin;
 }
 
 .key {
     font-size: 7vmin;
     color: #070911;
+    border-radius: 10px;
 }
+
+.key-wrap:nth-child(-n+4) {
+    height: 7vmin;
+}
+
+.key-wrap:nth-child(-n+4) > .key {
+    font-size: 4vmin;
+}
+
+.key:hover {
+    color: rgba(245, 109, 30, 1);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.key:active {
+    color: rgba(245, 109, 30, 0.65);
+    background: rgba(255, 255, 255, 0.85);
+}
+
+/* .key-wrap:nth-child(-n+7) > .key,
+.key-wrap:nth-child(21) > .key,
+.key-wrap:nth-child(23) > .key {
+    color: rgba(245, 109, 30, 1);
+    background: rgba(128, 204, 204, 0.25);
+}
+
+.key-wrap:nth-child(-n+7) > .key:hover,
+.key-wrap:nth-child(21) > .key:hover,
+.key-wrap:nth-child(23) > .key:hover {
+    background: rgba(128, 204, 204, 0.25);
+} */
