@@ -22,6 +22,8 @@ body {
 
 main {
   flex-grow: 1;
+  min-width: 180px;
+  min-height: 320px;
 }
 
 img {
@@ -207,8 +209,15 @@ body {
     height: 82%;
 }
 
-/* .keyboard-aria {
-} */
+.keyboard-aria {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    justify-items: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 3px;
+}
 
 /* Screen */
 
@@ -223,5 +232,17 @@ body {
 
     font-size: 7vmin;
     text-align: right;
+    color: #070911;
+}
+
+/* Keyboard */
+
+.key-wrap {
+    flex-basis: 23%;
+    align-self: stretch;
+}
+
+.key {
+    font-size: 7vmin;
     color: #070911;
 }
