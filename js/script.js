@@ -5,9 +5,9 @@
 const display = {
     content: '',
     mode: 'waiting',
-    subresult: 0,
-    operand1: 0,
-    operand2: 0,
+    subresult: NaN,
+    operand1: NaN,
+    operand2: NaN,
     dotIsExist: false,
     sign: false,
     currentOperation: ''
@@ -73,12 +73,26 @@ const keyOnClick = (evt) => {
 function reset() {
     display.content = '';
     display.mode = 'waiting';
-    display.subresult = 0;
-    display.operand1 = 0;
-    display.operand2 = 0;
+    display.subresult = NaN;
+    display.operand1 = NaN;
+    display.operand2 = NaN;
     display.dotIsExist = false;
     display.sign = false;
     display.currentOperation = '';
+}
+
+function numberFromScreen() {
+    return +display.content * (display.sign) ? (-1) : 1;
+}
+
+function numberToScreen(num) {
+    if (num < 0) {
+        display.sign = true;
+        display.content = toString(-num);
+    } else {
+        display.sign = false;
+        display.content = toString(num);
+    }
 }
 
 function operate(val1, val2, operation) {
@@ -105,23 +119,44 @@ function pressDigit(keyCode) {
     if (display.mode === 'waiting') {
         display.content = keyCode;
         display.mode = 'numberinput';
+        display.sign = false;
     } else if (display.mode === 'numberinput') {
         if (display.content.length < maxLength) display.content += keyCode;
     }
 }
 
 function pressOperation(keyCode) {
-    if (display.mode === 'waiting') {
-        display.operand1 = 0;
-        display.currentOperation = keyCode;
-    } else if (display.mode === 'numberinput') {
-        display.operand1 = +display.content * (display.sign) ? (-1) : 1;
-        display.currentOperation = keyCode;
-        display.mode = 'waiting';
-    }
+    // if (display.mode === 'waiting') {
+    //     display.content = '0';
+    //     display.operand1 = 0;
+    //     display.currentOperation = keyCode;
+    // } else if (display.mode === 'numberinput') {
+    //     if (isNaN(display.operand1)) {
+    //         display.operand1 = numberFromScreen();
+    //     } else {
+    //         let currrentOperand = numberFromScreen();
+    //         if (isNaN(display.subresult)) {
+    //             display.subresult = operate(display.operand1, currrentOperand, display.currentOperation);
+    //             display.operand1 = currrentOperand;
+    //         } else {
+    //             display.subresult = operate(display.subresult, currrentOperand, display.currentOperation);
+    //             display.operand1 = currrentOperand;
+    //         }
+    //     }
+    //     display.currentOperation = keyCode;
+    //     display.mode = 'waiting';
+    // }
 }
 
 function pressDone(keyCode) {
+    // if (display.mode !== 'numberinput') {
+    //     return;
+    // }
+    // let currrentOperand = numberFromScreen();
+    // let subResult = isNaN(display.subresult) ? display.operand1 : display.subresult;
+    // let result = operate(subResult, currrentOperand, display.currentOperation);
+    // numberToScreen(result);
+    // display.mode = 'waiting';
 }
 
 function pressClear(keyCode) {
@@ -143,6 +178,10 @@ function pressOther(keyCode) {
         }
     } else if (keyCode === 'sign') {
         display.sign = !display.sign;
+        if (display.mode === 'waiting') {
+            display.content = '';
+            display.mode = 'numberinput';
+        }
     }
 }
 
