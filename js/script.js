@@ -68,9 +68,43 @@ const keyOnClick = (evt) => {
     updateDisplay();
 }
 
-// Functions
+// Additionals functions
+
+function out(str) {
+    console.log(str);
+}
+
+function outt(str) {
+    out(str);
+    console.log(typeof(str));
+}
+
+function numberFromScreen() {
+
+    let res = +display.content;
+    if (display.sign) res = -res;
+
+    return res;
+
+}
+
+function numberToScreen(num) {
+
+    if (isNaN(num)) {
+        reset();
+        display.content = 'E';
+        return;
+    }
+
+    display.sign = (num < 0);
+    display.content = Math.abs(num).toString();
+
+}
+
+// Main functions
 
 function reset() {
+
     display.content = '';
     display.mode = 'waiting';
     display.subresult = NaN;
@@ -79,53 +113,78 @@ function reset() {
     display.dotIsExist = false;
     display.sign = false;
     display.currentOperation = '';
-}
 
-function numberFromScreen() {
-    return +display.content * (display.sign) ? (-1) : 1;
-}
-
-function numberToScreen(num) {
-    if (num < 0) {
-        display.sign = true;
-        display.content = toString(-num);
-    } else {
-        display.sign = false;
-        display.content = toString(num);
-    }
-}
-
-function operate(val1, val2, operation) {
-    switch (operation) {
-        case 'add':
-            return val1 + val2;
-        case 'sub':
-            return val1 - val2;
-        case 'mul':
-            return val1 * val2;
-        case 'div':
-            return (val2 === 0) ? 0 : val1 / val2;
-    }
 }
 
 function initiolize() {
+
     for (let btnItem of allButtons) {
         btnItem.addEventListener('click', keyOnClick);
     }
     reset();
+
+}
+
+function operate(val1, val2, operation) {
+
+    let result = 0;
+
+    switch (operation) {
+        case 'add':
+            result = val1 + val2;
+            break;
+        case 'sub':
+            result = val1 - val2;
+            break;
+        case 'mul':
+            result = val1 * val2;
+            break;
+        case 'div':
+            result = (val2 === 0) ? NaN : val1 / val2;
+            break;
+    }
+
+    return result.toPrecision(12);
+
+}
+
+function updateDisplay() {
+
+    let res = (display.sign) ? '-' : '';
+    res += display.content;
+    displayItem.value = res;
+
+}
+
+// MATH OPERATIONS
+
+function resetWaitingMode() {
+
+    if (display.mode === 'waiting') {
+        display.content = '';
+        display.mode = 'numberinput';
+        display.sign = false;
+        display.dotIsExist = false;
+    }
+
 }
 
 function pressDigit(keyCode) {
-    if (display.mode === 'waiting') {
-        display.content = keyCode;
-        display.mode = 'numberinput';
-        display.sign = false;
-    } else if (display.mode === 'numberinput') {
-        if (display.content.length < maxLength) display.content += keyCode;
-    }
+
+    resetWaitingMode();
+    if (display.content.length < maxLength) display.content += keyCode;
+
 }
 
 function pressOperation(keyCode) {
+
+    if (display.mode === 'numberinput') {
+        display.operand1 = numberFromScreen();
+        display.currentOperation = keyCode;
+        display.mode = 'waiting';
+        numberToScreen(display.operand1);
+    }
+
     // if (display.mode === 'waiting') {
     //     display.content = '0';
     //     display.operand1 = 0;
@@ -146,49 +205,50 @@ function pressOperation(keyCode) {
     //     display.currentOperation = keyCode;
     //     display.mode = 'waiting';
     // }
+
 }
 
 function pressDone(keyCode) {
+
     // if (display.mode !== 'numberinput') {
     //     return;
     // }
-    // let currrentOperand = numberFromScreen();
     // let subResult = isNaN(display.subresult) ? display.operand1 : display.subresult;
-    // let result = operate(subResult, currrentOperand, display.currentOperation);
-    // numberToScreen(result);
-    // display.mode = 'waiting';
+    let currrentOperand = numberFromScreen();
+    let result = operate(display.operand1, currrentOperand, display.currentOperation);
+    numberToScreen(result);
+    display.mode = 'waiting';
+
 }
 
 function pressClear(keyCode) {
+
     reset();
+
 }
 
 function pressMemory(keyCode) {
+
 }
 
 function pressOther(keyCode) {
+
     if (keyCode === 'dot') {
-        if (display.mode === 'waiting') {
-            display.content = '0.';
-            display.mode = 'numberinput';
-            display.dotIsExist = true;
-        } else if (display.mode === 'numberinput' && !display.dotIsExist) {
+
+        resetWaitingMode();
+        if (!display.dotIsExist) {
+            if (!display.content) display.content = '0';
             display.content += '.';
             display.dotIsExist = true;
         }
-    } else if (keyCode === 'sign') {
-        display.sign = !display.sign;
-        if (display.mode === 'waiting') {
-            display.content = '';
-            display.mode = 'numberinput';
-        }
-    }
-}
 
-function updateDisplay() {
-    let res = (display.sign) ? '-' : '';
-    res += display.content;
-    displayItem.value = res;
+    } else if (keyCode === 'sign') {
+
+        resetWaitingMode();
+        display.sign = !display.sign;
+
+    }
+
 }
 
 // Module code
