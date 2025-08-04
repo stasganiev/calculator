@@ -97,7 +97,21 @@ function numberToScreen(num) {
     }
 
     display.sign = (num < 0);
-    display.content = Math.abs(num).toString();
+    let numAbs = Math.abs(num);
+
+    let roundResult = Math.round(numAbs);
+    let roundResultStr = roundResult.toString();
+    let precisionResultStr = numAbs.toFixed(8);
+
+    let result = precisionResultStr;
+
+    if (roundResultStr.length > maxLength) {
+        result = roundResultStr[0] + '.' + roundResultStr.slice(1, 5) + ' e' + (roundResultStr.length - 1);
+    } else if (precisionResultStr.length > maxLength) {
+        result = precisionResultStr.slice(0, maxLength + 1);
+    }
+
+    display.content = Number(result);
 
 }
 
@@ -144,7 +158,7 @@ function operate(val1, val2, operation) {
             break;
     }
 
-    return result.toPrecision(12);
+    return result;
 
 }
 
@@ -180,42 +194,22 @@ function pressOperation(keyCode) {
 
     if (display.mode === 'numberinput') {
         display.operand1 = numberFromScreen();
+        if (isNaN(display.subresult)) {
+            display.subresult = display.operand1;
+        } else {
+            display.subresult = operate(display.subresult, display.operand1, display.currentOperation);
+        }
         display.currentOperation = keyCode;
         display.mode = 'waiting';
-        numberToScreen(display.operand1);
+        numberToScreen(display.subresult);
     }
-
-    // if (display.mode === 'waiting') {
-    //     display.content = '0';
-    //     display.operand1 = 0;
-    //     display.currentOperation = keyCode;
-    // } else if (display.mode === 'numberinput') {
-    //     if (isNaN(display.operand1)) {
-    //         display.operand1 = numberFromScreen();
-    //     } else {
-    //         let currrentOperand = numberFromScreen();
-    //         if (isNaN(display.subresult)) {
-    //             display.subresult = operate(display.operand1, currrentOperand, display.currentOperation);
-    //             display.operand1 = currrentOperand;
-    //         } else {
-    //             display.subresult = operate(display.subresult, currrentOperand, display.currentOperation);
-    //             display.operand1 = currrentOperand;
-    //         }
-    //     }
-    //     display.currentOperation = keyCode;
-    //     display.mode = 'waiting';
-    // }
 
 }
 
 function pressDone(keyCode) {
 
-    // if (display.mode !== 'numberinput') {
-    //     return;
-    // }
-    // let subResult = isNaN(display.subresult) ? display.operand1 : display.subresult;
     let currrentOperand = numberFromScreen();
-    let result = operate(display.operand1, currrentOperand, display.currentOperation);
+    let result = operate(display.subresult, currrentOperand, display.currentOperation);
     numberToScreen(result);
     display.mode = 'waiting';
 
