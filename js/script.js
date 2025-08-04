@@ -88,15 +88,8 @@ function numberFromScreen() {
 
 }
 
-function numberToScreen(num) {
+function numberPresentationForScreen(num) {
 
-    if (isNaN(num)) {
-        reset();
-        display.content = 'E';
-        return;
-    }
-
-    display.sign = (num < 0);
     let numAbs = Math.abs(num);
 
     let roundResult = Math.round(numAbs);
@@ -111,6 +104,29 @@ function numberToScreen(num) {
         result = precisionResultStr.slice(0, maxLength + 1);
     }
 
+    return result;
+
+}
+
+function checkError(num) {
+
+    if (isNaN(num)) {
+        reset();
+        display.content = 'E';
+        return true;
+    }
+
+    return false;
+
+}
+
+function numberToScreen(num) {
+
+    if (checkError(num)) return;
+
+    display.sign = (num < 0);
+
+    let result = numberPresentationForScreen(num);
     display.content = Number(result);
 
 }
@@ -174,11 +190,17 @@ function updateDisplay() {
 
 function resetWaitingMode() {
 
-    if (display.mode === 'waiting') {
+    if (display.mode === 'waiting' || display.mode === 'waitingresult') {
+        if (display.mode === 'waitingresult') {
+            display.subresult = NaN;
+            display.operand1 = NaN;
+            display.operand2 = NaN;
+            display.currentOperation = '';
+        }
         display.content = '';
-        display.mode = 'numberinput';
         display.sign = false;
         display.dotIsExist = false;
+        display.mode = 'numberinput';
     }
 
 }
@@ -192,14 +214,16 @@ function pressDigit(keyCode) {
 
 function pressOperation(keyCode) {
 
+    display.currentOperation = keyCode;
+
     if (display.mode === 'numberinput') {
         display.operand1 = numberFromScreen();
         if (isNaN(display.subresult)) {
             display.subresult = display.operand1;
         } else {
             display.subresult = operate(display.subresult, display.operand1, display.currentOperation);
+            if (checkError(display.subresult)) return;
         }
-        display.currentOperation = keyCode;
         display.mode = 'waiting';
         numberToScreen(display.subresult);
     }
@@ -208,10 +232,11 @@ function pressOperation(keyCode) {
 
 function pressDone(keyCode) {
 
-    let currrentOperand = numberFromScreen();
-    let result = operate(display.subresult, currrentOperand, display.currentOperation);
-    numberToScreen(result);
-    display.mode = 'waiting';
+    if (display.mode !== 'waitingresult') display.operand1 = numberFromScreen();
+    display.subresult = operate(display.subresult, display.operand1, display.currentOperation);
+    if (checkError(display.subresult)) return;
+    numberToScreen(display.subresult);
+    display.mode = 'waitingresult';
 
 }
 
