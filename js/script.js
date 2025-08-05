@@ -20,12 +20,7 @@ const displayItem = document.querySelector('.main-display');
 
 // Handlers
 
-const keyOnClick = (evt) => {
-    evt.preventDefault();
-    let btnItem = evt.target;
-    let keyCode = btnItem.dataset.keyCode;
-
-    out(keyCode);
+const keyCodeProcess = (keyCode) => {
 
     switch (keyCode) {
         case '0':
@@ -70,18 +65,33 @@ const keyOnClick = (evt) => {
         break;
     }
 
+}
+
+const keyOnClick = (evt) => {
+
+    evt.preventDefault();
+    let btnItem = evt.target;
+    let keyCode = btnItem.dataset.keyCode;
+
+    keyCodeProcess(keyCode);
+
     updateDisplay();
+
 }
 
 // Additionals functions
 
 function out(str) {
+
     console.log(str);
+    
 }
 
 function outt(str) {
+
     out(str);
     console.log(typeof(str));
+
 }
 
 function numberFromScreen() {
