@@ -33,36 +33,36 @@ const keyCodeProcess = (keyCode) => {
         case '7':
         case '8':
         case '9':
-        pressDigit(keyCode);
-        break;
+            pressDigit(keyCode);
+            break;
 
         case 'div':
         case 'mul':
         case 'sub':
         case 'add':
-        pressOperation(keyCode);
-        break;
+            pressOperation(keyCode);
+            break;
 
         case 'done':
-        pressDone(keyCode);
-        break;
+            pressDone(keyCode);
+            break;
 
         case 'clear':
         case 'clear-current':
         case 'clear-char':
-        pressClear(keyCode);
-        break;
+            pressClear(keyCode);
+            break;
 
         case 'mc':
         case 'mr':
         case 'madd':
         case 'msub':
-        pressMemory(keyCode);
-        break;
+            pressMemory(keyCode);
+            break;
 
         default:
-        pressOther(keyCode);
-        break;
+            pressOther(keyCode);
+            break;
     }
 
 }
@@ -84,7 +84,7 @@ const keyOnClick = (evt) => {
 function out(str) {
 
     console.log(str);
-    
+
 }
 
 function outt(str) {
