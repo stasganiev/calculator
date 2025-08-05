@@ -200,6 +200,7 @@ body {
 }
 
 .screen-aria {
+    position: relative;
     display: flex;
     flex-direction: column;
 }
@@ -224,7 +225,7 @@ body {
 .main-display {
     width: 90%;
     height: 60%;
-    margin: auto;
+    margin: auto 6% auto 2%;
     padding: 8px;
 
     border: none;
@@ -323,4 +324,41 @@ body {
 .key-wrap:nth-child(24) > .key:active {
     color: rgba(30, 175, 89, 0.65);
     background: rgba(205, 205, 255, 0.85);
+}
+
+.keys-clear-wrap {
+    position: absolute;
+    right: 1px;
+    top: calc(50% - 4vmin);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    justify-items: stretch;
+    gap: 2px;
+
+    width: 4vmin;
+    height: 8vmin;
+}
+
+.keys-clear-wrap > .key-wrap {
+    flex: 1;
+    align-self: center;
+
+    width: 3vmin;
+    height: 3vmin;
+    border-radius: 3px;
+
+}
+
+.keys-clear-wrap > .key-wrap > .key {
+    font-size: 1.5vmin;
+    border-radius: 3px;
+    text-align: center;
+    padding: 0;
+    width: 3vmin;
+    height: 3vmin;
+    min-width: 0;
+
+    color: #070911;
 }

@@ -15,6 +15,7 @@ const display = {
 const maxLength = 12;
 
 const allButtons = document.querySelectorAll('.key');
+const keyBackspace = document.querySelector('.key-backspace-js');
 const displayItem = document.querySelector('.main-display');
 
 // Handlers
@@ -23,6 +24,8 @@ const keyOnClick = (evt) => {
     evt.preventDefault();
     let btnItem = evt.target;
     let keyCode = btnItem.dataset.keyCode;
+
+    out(keyCode);
 
     switch (keyCode) {
         case '0':
@@ -50,6 +53,8 @@ const keyOnClick = (evt) => {
         break;
 
         case 'clear':
+        case 'clear-current':
+        case 'clear-char':
         pressClear(keyCode);
         break;
 
@@ -151,6 +156,7 @@ function initiolize() {
     for (let btnItem of allButtons) {
         btnItem.addEventListener('click', keyOnClick);
     }
+    keyBackspace.textContent = '<x';
     reset();
 
 }
@@ -242,7 +248,18 @@ function pressDone(keyCode) {
 
 function pressClear(keyCode) {
 
-    reset();
+    switch (keyCode) 
+    {
+        case 'clear':
+            reset();
+            break;
+        case 'clear-current':
+            display.content = '';
+            break;
+        case 'clear-char':
+            display.content = display.content.slice(0, display.content.length - 1);
+            break;
+    }
 
 }
 
