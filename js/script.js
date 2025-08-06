@@ -302,6 +302,10 @@ function pressOther(keyCode) {
             break;
 
         case 'persent':
+            if (display.mode === 'numberinput' && !isNaN(display.subresult)) {
+                display.operand1 = display.subresult / 100 * numberFromScreen();
+                numberToScreen(display.operand1);
+            }
             break;
     }
 
