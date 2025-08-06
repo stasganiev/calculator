@@ -279,20 +279,30 @@ function pressMemory(keyCode) {
 
 function pressOther(keyCode) {
 
-    if (keyCode === 'dot') {
+    switch (keyCode) 
+    {
+        case 'dot':
+            resetWaitingMode();
+            if (!display.dotIsExist) {
+                if (!display.content) display.content = '0';
+                display.content += '.';
+                display.dotIsExist = true;
+            }
+            break;
 
-        resetWaitingMode();
-        if (!display.dotIsExist) {
-            if (!display.content) display.content = '0';
-            display.content += '.';
-            display.dotIsExist = true;
-        }
+        case 'sign':
+            resetWaitingMode();
+            display.sign = !display.sign;
+            break;
 
-    } else if (keyCode === 'sign') {
+        case 'sqrt':
+            if (display.mode === 'numberinput') {
+                numberToScreen(Math.sqrt(numberFromScreen()));
+            }
+            break;
 
-        resetWaitingMode();
-        display.sign = !display.sign;
-
+        case 'persent':
+            break;
     }
 
 }
