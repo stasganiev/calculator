@@ -10,13 +10,15 @@ const display = {
     operand2: NaN,
     dotIsExist: false,
     sign: false,
-    currentOperation: ''
+    currentOperation: '',
+    memory: 0
 };
 const maxLength = 12;
 
 const allButtons = document.querySelectorAll('.key');
 const keyBackspace = document.querySelector('.key-backspace-js');
 const displayItem = document.querySelector('.main-display');
+const memDisplay = document.querySelector('.memory-display-content');
 
 // Handlers
 
@@ -168,6 +170,7 @@ function initiolize() {
     }
     keyBackspace.textContent = '<x';
     reset();
+    updateDisplay();
 
 }
 
@@ -199,6 +202,8 @@ function updateDisplay() {
     let res = (display.sign) ? '-' : '';
     res += display.content;
     displayItem.value = res;
+
+    memDisplay.textContent = (display.memory === 0) ? '' : display.memory.toString();
 
 }
 
@@ -275,24 +280,57 @@ function pressClear(keyCode) {
 
 function pressMemory(keyCode) {
 
+    switch (keyCode) 
+    {
+        case 'mc':
+            display.memory = 0;
+            break;
+
+        case 'mr':
+            numberToScreen(display.memory);
+            break;
+
+        case 'madd':
+            display.memory += numberFromScreen();
+            break;
+
+        case 'msub':
+            display.memory -= numberFromScreen();
+            break;
+    }
+
 }
 
 function pressOther(keyCode) {
 
-    if (keyCode === 'dot') {
+    switch (keyCode) 
+    {
+        case 'dot':
+            resetWaitingMode();
+            if (!display.dotIsExist) {
+                if (!display.content) display.content = '0';
+                display.content += '.';
+                display.dotIsExist = true;
+            }
+            break;
 
-        resetWaitingMode();
-        if (!display.dotIsExist) {
-            if (!display.content) display.content = '0';
-            display.content += '.';
-            display.dotIsExist = true;
-        }
+        case 'sign':
+            resetWaitingMode();
+            display.sign = !display.sign;
+            break;
 
-    } else if (keyCode === 'sign') {
+        case 'sqrt':
+            if (display.mode === 'numberinput') {
+                numberToScreen(Math.sqrt(numberFromScreen()));
+            }
+            break;
 
-        resetWaitingMode();
-        display.sign = !display.sign;
-
+        case 'persent':
+            if (display.mode === 'numberinput' && !isNaN(display.subresult)) {
+                display.operand1 = display.subresult / 100 * numberFromScreen();
+                numberToScreen(display.operand1);
+            }
+            break;
     }
 
 }
