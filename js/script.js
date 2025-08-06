@@ -10,13 +10,15 @@ const display = {
     operand2: NaN,
     dotIsExist: false,
     sign: false,
-    currentOperation: ''
+    currentOperation: '',
+    memory: 0
 };
 const maxLength = 12;
 
 const allButtons = document.querySelectorAll('.key');
 const keyBackspace = document.querySelector('.key-backspace-js');
 const displayItem = document.querySelector('.main-display');
+const memDisplay = document.querySelector('.memory-display-content');
 
 // Handlers
 
@@ -168,6 +170,7 @@ function initiolize() {
     }
     keyBackspace.textContent = '<x';
     reset();
+    updateDisplay();
 
 }
 
@@ -199,6 +202,8 @@ function updateDisplay() {
     let res = (display.sign) ? '-' : '';
     res += display.content;
     displayItem.value = res;
+
+    memDisplay.textContent = (display.memory === 0) ? '' : display.memory.toString();
 
 }
 
@@ -274,6 +279,25 @@ function pressClear(keyCode) {
 }
 
 function pressMemory(keyCode) {
+
+    switch (keyCode) 
+    {
+        case 'mc':
+            display.memory = 0;
+            break;
+
+        case 'mr':
+            numberToScreen(display.memory);
+            break;
+
+        case 'madd':
+            display.memory += numberFromScreen();
+            break;
+
+        case 'msub':
+            display.memory -= numberFromScreen();
+            break;
+    }
 
 }
 
