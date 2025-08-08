@@ -178,8 +178,8 @@ body {
 }
 
 .main-content-wrap {
-    width: 55vmin;
-    max-height: 90vmin;
+    width: 65vmin;
+    max-height: 98vmin;
 
     margin: auto;
 }
@@ -242,7 +242,7 @@ body {
 
 .memory-display {
     position: absolute;
-    top: 2%;
+    top: 2px;
     left: 2%;
 
     font-size: 1.5vmin;
