@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'lektonregular';
+    src: url('../fonts/lekton-regular-webfont.woff2') format('woff2'),
+         url('../fonts/lekton-regular-webfont.woff') format('woff'),
+         url('../fonts/Lekton-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Global common (template) */
 
 * {
@@ -89,7 +98,7 @@ button {
 body {
   min-width: 320px;
 
-  font-family: 'Trebuchet MS', 'Arial Narrow', sans-serif;
+  font-family: 'lektonregular', 'Trebuchet MS', 'Arial Narrow', sans-serif;
   font-size: 16px;
   line-height: 1.25em;
   
@@ -101,7 +110,6 @@ body {
     padding: 5px 5px;
     min-width: 38px;
 
-    font-family: 'Cuprum', Arial, sans-serif;
     font-weight: normal;
     font-size: 14px;
     line-height: 1.25em;
