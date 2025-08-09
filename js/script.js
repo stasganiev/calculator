@@ -13,7 +13,7 @@ const display = {
     currentOperation: '',
     memory: 0
 };
-const maxLength = 12;
+const maxLength = 16;
 
 const allButtons = document.querySelectorAll('.key');
 const keyBackspace = document.querySelector('.key-backspace-js');
@@ -111,7 +111,7 @@ function numberPresentationForScreen(num) {
 
     let roundResult = Math.round(numAbs);
     let roundResultStr = roundResult.toString();
-    let precisionResultStr = numAbs.toFixed(8);
+    let precisionResultStr = numAbs.toFixed(maxLength - 2);
 
     let result = precisionResultStr;
 
