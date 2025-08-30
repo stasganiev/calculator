@@ -43,8 +43,6 @@ cd calculator
 
 #### 📂 Структура проекта
 ```css
-Copy
-Edit
 calculator/
 │── index.html
 │── css/

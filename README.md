@@ -42,8 +42,6 @@ cd calculator
 
 #### 📂 Project Structure
 ```css
-Copy
-Edit
 calculator/
 │── index.html
 │── css/
